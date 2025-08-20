@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Fee Assistance</title>
+    <link rel="stylesheet" href="SchoolHelpCenter.Css" />
+  </head>
+  <body>
+    <div class="navigation" >
+        <button class="nav-btn active" onclick="window.location.href='Dashboard.html'">Dashboard</button>
+        <button class="nav-btn" onclick="window.location.href='SchoolHelpCenter.html'">School Help Center</button>
+        <button class="nav-btn" onclick="window.location.href='History.html'">History</button>
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            // Reset all buttons to inactive
+            document.querySelectorAll('.nav-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Set the clicked button as active
+            event.target.classList.add('active');
+
+            // Navigate to the respective page (replace with actual navigation logic)
+            console.log(`Navigating to ${page}`);
+        }
+    </script>
+
+    <div class="text-center">
+      <h2>School Fee Assistance</h2>
+      <p style="color: #6b7280">
+        Help fellow students complete their education
+      </p>
+    </div>
+
+    <div class="tabs">
+      <!-- Tab headers -->
+      <div class="tab-list">
+        <div class="tab active" onclick="showTab('browse')">
+          Browse Requests
+        </div>
+        <div class="tab" onclick="showTab('create')">Request Help</div>
+        <div class="tab" onclick="showTab('my-requests')">My Requests</div>
+      </div>
+
+      <!-- Browse Requests -->
+      <div id="browse" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <strong>Jane Smith</strong>
+              <span class="badge red">Urgent</span>
+              <p style="color: #6b7280; font-size: 0.875rem">
+                STU001 • Computer Science - 3rd Year
+              </p>
+              <p style="color: #6b7280; font-size: 0.875rem">
+                University of Nairobi • Semester 2, 2024
+              </p>
+            </div>
+            <div style="text-align: right">
+              <div style="font-weight: bold">KES 8,500 / 15,000</div>
+              <p style="color: #6b7280; font-size: 0.875rem">57% funded</p>
+              <p style="color: #dc2626; font-size: 0.75rem">Due: 2024-01-25</p>
+            </div>
+          </div>
+          <p>
+            Need help with tuition fees for this semester. My scholarship was
+            delayed and I risk missing final exams.
+          </p>
+
+          <div class="progress">
+            <div class="progress-bar" style="width: 57%"></div>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 0.875rem;
+              color: #6b7280;
+            "
+          >
+            <span>❤️ 12 donors helped</span>
+            <span>⏰ Due: 2024-01-25</span>
+          </div>
+
+          <div style="margin-top: 8px">
+            <button class="btn green">Help KES 500</button>
+            <button class="btn blue">Help KES 1,000</button>
+            <button class="btn outline">Help KES 2,000</button>
+            <button class="btn green-outline">Complete Goal (KES 6,500)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Request -->
+      <div id="create" class="tab-content" style="display: none">
+        <div class="card">
+          <h3>Request School Fee Assistance</h3>
+          <form>
+            <div class="form-grid">
+              <div>
+                <label for="amount">Amount Needed (KES)</label>
+                <input
+                  type="number"
+                  id="amount"
+                  placeholder="e.g., 15000"
+                  required
+                />
+              </div>
+              <div>
+                <label for="semester">Semester/Term</label>
+                <input
+                  type="text"
+                  id="semester"
+                  placeholder="e.g., Semester 2, 2024"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="course">Course/Program</label>
+                <input
+                  type="text"
+                  id="course"
+                  placeholder="e.g., Computer Science"
+                  required
+                />
+              </div>
+              <div>
+                <label for="deadline">Payment Deadline</label>
+                <input type="date" id="deadline" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="description">Explain Your Situation</label>
+              <textarea
+                id="description"
+                rows="5"
+                placeholder="Please explain why you need assistance..."
+              ></textarea>
+            </div>
+
+            <div class="tips">
+              <strong>Tips for a successful request:</strong>
+              <ul>
+                <li>• Be honest and specific about your situation</li>
+                <li>• Mention your academic performance</li>
+                <li>• Explain how this help will impact your education</li>
+                <li>• Set a realistic deadline</li>
+              </ul>
+            </div>
+
+            <button
+              type="submit"
+              class="btn blue"
+              style="width: 100%; margin-top: 10px"
+            >
+              Request School Fee Assistance
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- My Requests -->
+      <div id="my-requests" class="tab-content" style="display: none">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <strong>My Fee Assistance Request</strong>
+              <p style="color: #6b7280; font-size: 0.875rem">
+                Computer Science • Created on 2024-01-10
+              </p>
+            </div>
+            <div style="text-align: right">
+              <div style="font-weight: bold">KES 7,500 / 12,000</div>
+              <p style="color: #6b7280; font-size: 0.875rem">62% funded</p>
+            </div>
+          </div>
+          <p>
+            Tuition fees for current semester. Working part-time but still short
+            on fees.
+          </p>
+          <div class="progress">
+            <div class="progress-bar green" style="width: 62%"></div>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 0.875rem;
+              color: #6b7280;
+            "
+          >
+            <span>❤️ 8 people helped you</span>
+            <span>Deadline: 2024-01-30</span>
+          </div>
+          <div
+            style="
+              background: #dcfce7;
+              padding: 8px;
+              border-radius: 6px;
+              margin-top: 8px;
+              font-size: 0.875rem;
+              color: #166534;
+            "
+          >
+            💚 You still need KES 4,500 to reach your goal. Share your request
+            with friends and family!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showTab(tabId) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((c) => (c.style.display = "none"));
+        document.getElementById(tabId).style.display = "block";
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelector(`.tab[onclick="showTab('${tabId}')"]`)
+          .classList.add("active");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f9fafb;
+    color: #111827;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .navigation {
+    background-color: #dcdcdc;
+    width: 60vw;
+    height: fit-content;
+    display: flex;
+    justify-content: space-around;
+    margin: 10px auto;
+    text-align: center;
+    padding: 10px;
+    border-radius: 50px;
+  }
+  
+  .nav-btn {
+    /* padding: 10px 20px; */
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #dcdcdc;
+    color: black;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .nav-btn.active {
+    background-color: rgb(255, 255, 255);
+  }
+  .text-center {
+    text-align: center;
+  }
+  .heading {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  .subheading {
+    color: #6b7280;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 16px;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .card-body {
+    padding-top: 8px;
+  }
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  .stat-value.purple { color: #9333ea; }
+  .stat-value.green { color: #16a34a; }
+  .muted { font-size: 0.8rem; color: #6b7280; }
+  
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  label { display: block; font-size: 0.9rem; margin-bottom: 4px; }
+  input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+  }
+  
+  .space-y > * + * { margin-top: 16px; }
+  
+  .transaction {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .transaction-main {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .transaction-info {
+    display: flex;
+    gap: 10px;
+  }
+  .transaction-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .description {
+    font-size: 0.9rem;
+    color: #4b5563;
+  }
+  .meta {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  .transaction-amount {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: right;
+  }
+  .transaction-amount.red { color: #dc2626; }
+  .transaction-amount.green { color: #16a34a; }
+  
+  .icon { font-size: 1.2rem; }
+  .icon.red { color: #dc2626; }
+  .icon.green { color: #16a34a; }
+  
+  .badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+  .badge.green { background: #bbf7d0; color: #166534; }
+  .badge.red { background: #fecaca; color: #991b1b; }
+  .badge.gray { background: #e5e7eb; color: #374151; }
+  
+  .note {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  .purple-note { background: #f3e8ff; border: 1px solid #e9d5ff; color: #6b21a8; }
+  .green-note { background: #dcfce7; border: 1px solid #bbf7d0; color: #166534; }
+  .red-note { background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; }
+  
