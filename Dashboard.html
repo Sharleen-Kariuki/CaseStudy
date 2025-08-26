@@ -8,27 +8,12 @@
   </head>
   <body>
     <div class="container">
+      <!-- The three navs -->
         <div class="navigation" >
             <button class="nav-btn active" onclick="window.location.href='Dashboard.html'">Dashboard</button>
             <button class="nav-btn" onclick="window.location.href='SchoolHelpCenter.html'">School Help Center</button>
             <button class="nav-btn" onclick="window.location.href='History.html'">History</button>
         </div>
-
-        <script>
-            function navigateTo(page) {
-                // Reset all buttons to inactive
-                document.querySelectorAll('.nav-btn').forEach(button => {
-                    button.classList.remove('active');
-                });
-
-                // Set the clicked button as active
-                event.target.classList.add('active');
-
-                // Navigate to the respective page (replace with actual navigation logic)
-                console.log(`Navigating to ${page}`);
-            }
-        </script>
-
       <div class="text-center">
         <h2 class="title">School Fee Assistance Dashboard</h2>
         <p class="subtitle">Help fellow students complete their education</p>
@@ -81,18 +66,6 @@
         </div>
       </div>
 
-      <!-- Recent Activity and Urgent Requests -->
-      <div class="content-grid">
-        <!-- Recent Activity -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Recent Activity</span>
-          </div>
-          <div class="card-content">
-            <p class="empty-state">No recent activity</p>
-          </div>
-        </div>
-
         <!-- Urgent Fee Requests -->
         <div class="card">
           <div class="card-header">
@@ -122,5 +95,19 @@
         </div>
       </div>
     </div>
+    <script>
+      function navigateTo(page) {
+          // Reset all buttons to inactive
+          document.querySelectorAll('.nav-btn').forEach(button => {
+              button.classList.remove('active');
+          });
+
+          // Set the clicked button as active
+          event.target.classList.add('active');
+
+          // Navigate to the respective page (replace with actual navigation logic)
+          console.log(`Navigating to ${page}`);
+      }
+  </script>
   </body>
 </html>
