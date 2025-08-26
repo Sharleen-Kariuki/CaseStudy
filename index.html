@@ -20,7 +20,7 @@
                 <button class="tab-button" data-form="signup">Sign Up</button>
             </div>
             <div id="loginForm" class="form-content">
-                <form class="login-form" action="Dashboard.html" method="GET">
+                <form class="login-form" action="http://localhost:3000/login" method="POST">
                     <div class="input-group">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" placeholder="your.email@university.ac.ke" required>
@@ -34,18 +34,18 @@
             </div>
 <!-- SignUp -->
             <div id="signupForm" class="form-content hidden">
-                <form class="signup-form" action="Dashboard.html" method="GET">
+                <form class="signup-form" action="http://localhost:3000/signup"  method="POST">
                     <div class="input-group">
-                        <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" name="firstName" placeholder="Enter your first name">
-                    </div>
-                    <div class="input-group">
-                        <label for="last-name">Last Name</label>
-                        <input type="text" id="last-name" name="lastName" placeholder="Enter your last name">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name">
                     </div>
                     <div class="input-group">
                         <label for="signup-email">Email</label>
                         <input type="email" id="signup-email" name="email" placeholder="your.email@university.ac.ke">
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
                     </div>
                     <div class="input-group">
                         <label for="signup-password">Password</label>
