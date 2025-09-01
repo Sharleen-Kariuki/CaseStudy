@@ -9,23 +9,27 @@
   <body>
     <div class="container">
 
-      <!-- The three navs -->
+      <!-- Navigation -->
         <div class="navigation" >
             <button class="nav-btn active" onclick="window.location.href='Dashboard.html'">Dashboard</button>
             <button class="nav-btn" onclick="window.location.href='SchoolHelpCenter.html'">School Help Center</button>
             <button class="nav-btn" onclick="window.location.href='History.html'">History</button>
         </div>
+        <div class="logout">
+            <button class="btn logout-btn" onclick="window.location.href='http://127.0.0.1:5500/'">Logout</button>
+        </div>
+
       <div class="text-center">
         <h2 class="title">School Fee Assistance Dashboard</h2>
         <p class="subtitle">Help fellow students complete their education</p>
       </div>
 
-      <!-- Stats Cards -->
+      <!-- Statistics Cards -->
       <div class="stats-grid">
         <div class="card">
           <div class="card-header">
             <span class="card-title">Available Balance</span>
-            <span class="icon">🎓</span>
+           
           </div>
           <div class="card-content">
             <div class="amount text-green">KES 50,000</div>
@@ -36,7 +40,6 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">Students Helped</span>
-            <span class="icon">👥</span>
           </div>
           <div class="card-content">
             <div class="amount text-blue">10</div>
@@ -47,7 +50,7 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">Total Donated</span>
-            <span class="icon">📈</span>
+      
           </div>
           <div class="card-content">
             <div class="amount text-purple">KES 120,000</div>
@@ -58,7 +61,7 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">Received Help</span>
-            <span class="icon">🎓</span>
+  
           </div>
           <div class="card-content">
             <div class="amount text-orange">KES 30,000</div>
@@ -106,7 +109,7 @@
           // Set the clicked button as active
           event.target.classList.add('active');
 
-          // Navigate to the respective page (replace with actual navigation logic)
+          // Navigate to the respective page 
           console.log(`Navigating to ${page}`);
       }
   </script>
