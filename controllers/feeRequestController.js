@@ -1,7 +1,6 @@
 const FeeRequest = require("../models/FeeRequest");
 const User = require("../models/User");
 
-// Create fee request
 exports.createFeeRequest = async (req, res) => {
   try {
     const { amountNeeded, course, university, semester, deadline, description } = req.body;
@@ -28,7 +27,7 @@ exports.createFeeRequest = async (req, res) => {
   }
 };
 
-// Get all fee requests
+
 exports.getFeeRequests = async (req, res) => {
   try {
     const requests = await FeeRequest.find().populate("requester donors.donor", "name email");
@@ -37,8 +36,7 @@ exports.getFeeRequests = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-// Get requests by user
+//Here we filter requests by the user
 exports.getMyFeeRequests = async (req, res) => {
   try {
     const requester = req.params.userId || req.user?.id;
