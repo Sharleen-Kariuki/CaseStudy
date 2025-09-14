@@ -1,6 +1,6 @@
 const Transaction = require("../models/Transaction");
 
-// Get transactions for a user
+// Getting of transactions for a user
 exports.getUserTransactions = async (req, res) => {
   try {
     const userId = req.params.userId || req.user?.id;
