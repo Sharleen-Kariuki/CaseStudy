@@ -14,17 +14,17 @@ exports.makeDonation = async (req, res) => {
     const request = await FeeRequest.findById(requestId);
     if (!request) return res.status(404).json({ error: "Fee request not found." });
 
-    // Add donor to request
+    // Now we add the donor to request
     request.donors.push({ donor, amount });
     request.amountRaised += amount;
     if (request.amountRaised >= request.amountNeeded) request.status = "completed";
     await request.save();
 
-    // Create donation record
+    // Creating the donation record
     const donation = new Donation({ donor, request: requestId, amount });
     await donation.save();
 
-    // Create transaction
+    // Creating of the  transaction
     const transaction = new Transaction({
       fromUser: donor,
       toUser: request.requester,
