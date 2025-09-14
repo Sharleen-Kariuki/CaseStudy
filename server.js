@@ -6,12 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB Atlas (replace with your URI)
+// Connection to MongoDB
 mongoose.connect("mongodb+srv://sharleenwambui28:Sharleen@cluster0.1dsixbb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch(err => console.error(err));
 
-// Routes
+// The Routes we are using
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/fee-request", require("./routes/feeRequest"));
 app.use("/api/donation", require("./routes/donation"));
