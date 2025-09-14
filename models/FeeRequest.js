@@ -14,8 +14,9 @@ const feeRequestSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     date: { type: Date, default: Date.now }
   }],
-  status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" },
-  createdAt: { type: Date, default: Date.now }
+  status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" }
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model("FeeRequest", feeRequestSchema);
