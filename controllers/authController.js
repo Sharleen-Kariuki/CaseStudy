@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials." });
 
-    // For demo, we just send user info. Add JWT for real apps.
+    // For demo, we just send user info. 
     res.json({ message: "Login successful!", user: { id: user._id, name: user.name, email: user.email } });
   } catch (err) {
     res.status(500).json({ error: err.message });
