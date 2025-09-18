@@ -1,10 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// //use EJS as the view engine
+// app.set('view engine', 'ejs');
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, "public")));
+console.log("Serving static files from:", path.join(__dirname, "public"));
 
 // Connection to MongoDB
 mongoose.connect("mongodb+srv://sharleenwambui28:Sharleen@cluster0.1dsixbb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
