@@ -15,6 +15,23 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 console.log("Serving static files from:", path.join(__dirname, "public"));
 
+
+// Serve index.html from root folder
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+  // Example: Check if the user is authenticated (optional)
+  // You can replace this with your actual authentication logic
+  const isAuthenticated = true; // Replace with real authentication check
+  if (!isAuthenticated) {
+    return res.status(401).send("Unauthorized. Please log in.");
+  }
+
+  // Serve the Dashboard.html file
+  res.sendFile(path.join(__dirname, "public", "Dashboard.html"));
+});
 // Connection to MongoDB
 mongoose.connect("mongodb+srv://sharleenwambui28:Sharleen@cluster0.1dsixbb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("Connected to MongoDB Atlas"))

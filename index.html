@@ -19,8 +19,10 @@
                 <button class="tab-button active" data-form="login">Login</button>
                 <button class="tab-button" data-form="signup">Sign Up</button>
             </div>
+        
+            <!-- Login Form -->
             <div id="loginForm" class="form-content">
-                <form class="login-form" action="http://localhost:3000/api/auth/login" method="POST">
+                <form id="loginFormElement" class="login-form">
                     <div class="input-group">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" placeholder="your.email@university.ac.ke" required>
@@ -32,66 +34,126 @@
                     <button type="submit" class="sign-in-button">Sign In</button>
                 </form>
             </div>
-<!-- SignUp -->
+        
+            <!-- Signup Form -->
             <div id="signupForm" class="form-content hidden">
-                <form class="signup-form" action="http://localhost:3000/api/auth/signup"  method="POST">
+                <form id="signupFormElement" class="signup-form">
                     <div class="input-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name">
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
                     </div>
                     <div class="input-group">
                         <label for="signup-email">Email</label>
-                        <input type="email" id="signup-email" name="email" placeholder="your.email@university.ac.ke">
+                        <input type="email" id="signup-email" name="email" placeholder="your.email@university.ac.ke" required>
                     </div>
                     <div class="input-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
                     </div>
                     <div class="input-group">
                         <label for="signup-password">Password</label>
-                        <input type="password" id="signup-password" name="password" placeholder="Create a password">
+                        <input type="password" id="signup-password" name="password" placeholder="Create a password" required>
                     </div>
                     <div class="input-group">
                         <label for="confirm-password">Confirm Password</label>
-                        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm your password">
+                        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm your password" required>
                     </div>
                     <button type="submit" class="sign-up-button">Sign Up</button>
                 </form>
             </div>
         </div>
-    </div>
-
-    <script>
-        // Get references to all the elements we need to interact with
-        const loginTab = document.querySelector('[data-form="login"]');
-        const signupTab = document.querySelector('[data-form="signup"]');
-        const loginForm = document.getElementById('loginForm');
-        const signupForm = document.getElementById('signupForm');
-
-        // Add a click event listener to the Login tab button
-        loginTab.addEventListener('click', () => {
-            // Remove the 'active' class from the Sign Up tab
-            signupTab.classList.remove('active');
-            // Add the 'active' class to the Login tab
-            loginTab.classList.add('active');
-            
-            // Hide the Sign Up form and show the Login form
-            signupForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-        });
-
-        // Add a click event listener to the Sign Up tab button
-        signupTab.addEventListener('click', () => {
-            // Remove the 'active' class from the Login tab
-            loginTab.classList.remove('active');
-            // Add the 'active' class to the Sign Up tab
-            signupTab.classList.add('active');
-
-            // Hide the Login form and show the Sign Up form
-            loginForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
-        });
-    </script>
+        
+        <script>
+            // Handle tab switching between Login and Signup forms
+            const loginTab = document.querySelector('[data-form="login"]');
+            const signupTab = document.querySelector('[data-form="signup"]');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+        
+            loginTab.addEventListener('click', () => {
+                signupTab.classList.remove('active');
+                loginTab.classList.add('active');
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            });
+        
+            signupTab.addEventListener('click', () => {
+                loginTab.classList.remove('active');
+                signupTab.classList.add('active');
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+            });
+        
+            // Handle Login Form Submission
+            document.getElementById("loginFormElement").addEventListener("submit", async (event) => {
+                event.preventDefault(); // Prevent default form submission
+        
+                const email = document.getElementById("login-email").value;
+                const password = document.getElementById("login-password").value;
+        
+                try {
+                    const response = await fetch("http://localhost:3000/api/auth/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ email, password }),
+                    });
+        
+                    const data = await response.json();
+        
+                    if (response.ok) {
+                        alert("Login successful!");
+                        // Redirect to the dashboard
+                        window.location.href = "Dashboard.html";
+                    } else {
+                        alert(`Login failed: ${data.error}`);
+                    }
+                } catch (error) {
+                    console.error("Error logging in:", error);
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        
+            // Handle Signup Form Submission
+            document.getElementById("signupFormElement").addEventListener("submit", async (event) => {
+                event.preventDefault(); // Prevent default form submission
+        
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("signup-email").value;
+                const phone = document.getElementById("phone").value;
+                const password = document.getElementById("signup-password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+        
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+        
+                try {
+                    const response = await fetch("http://localhost:3000/api/auth/signup", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ name, email, phone, password }),
+                    });
+        
+                    const data = await response.json();
+        
+                    if (response.ok) {
+                        alert(data.message); // Show success message
+                        // Redirect to the login form
+                        document.querySelector('[data-form="login"]').click();
+                    } else {
+                        alert(`Signup failed: ${data.error}`);
+                    }
+                } catch (error) {
+                    console.error("Error signing up:", error);
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        </script>
     <!--
     <script type="module">
       // Import the functions you need from the SDKs you need
