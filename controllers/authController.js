@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {
+  console.log("Signup Function", req.body);
   try {
     const { name, email, phone, password } = req.body;
     if (!name || !email || !phone || !password) {
@@ -21,6 +22,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+  // console.log("Login function reached. Request body:", req.body); // Debugging log
   try {
     const { email, password } = req.body;
     if (!email || !password)
@@ -31,9 +33,9 @@ exports.login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials." });
-
-    // For demo, we just send user info. 
-    res.json({ message: "Login successful!", user: { id: user._id, name: user.name, email: user.email } });
+    
+   // Send a success response
+   res.status(200).json({ message: "Login successful!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

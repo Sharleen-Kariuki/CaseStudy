@@ -20,7 +20,7 @@
                 <button class="tab-button" data-form="signup">Sign Up</button>
             </div>
             <div id="loginForm" class="form-content">
-                <form class="login-form" action="http://localhost:3000/login" method="POST">
+                <form class="login-form" action="http://localhost:3000/api/auth/login" method="POST">
                     <div class="input-group">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" placeholder="your.email@university.ac.ke" required>
@@ -34,7 +34,7 @@
             </div>
 <!-- SignUp -->
             <div id="signupForm" class="form-content hidden">
-                <form class="signup-form" action="http://localhost:3000/signup"  method="POST">
+                <form class="signup-form" action="http://localhost:3000/api/auth/signup"  method="POST">
                     <div class="input-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" placeholder="Enter your name">
