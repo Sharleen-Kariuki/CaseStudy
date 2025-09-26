@@ -1,4 +1,3 @@
-<!-- The html aand css part done by Victor Githae. Daniel is doing adding the functionality for database.Before Victor had used firebase but we changed to momgodb -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,15 +11,15 @@
     <div class="container">
         <h1 class="logo-title">Somesha</h1>
         <p class="logo-subtitle">Help fellow students with fee assistance</p>
-        <!-- Login form -->
         <div class="login-card">
             <h2 class="welcome-text">Welcome</h2>
             <div class="tabs">
                 <button class="tab-button active" data-form="login">Login</button>
                 <button class="tab-button" data-form="signup">Sign Up</button>
             </div>
+            <!-- LOGIN FORM -->
             <div id="loginForm" class="form-content">
-                <form class="login-form" action="http://localhost:3000/api/auth/login" method="POST">
+                <form class="login-form" id="login-form">
                     <div class="input-group">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" placeholder="your.email@university.ac.ke" required>
@@ -30,93 +29,106 @@
                         <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
                     </div>
                     <button type="submit" class="sign-in-button">Sign In</button>
+                    <div id="login-error" style="color: red; margin-top: 10px;"></div>
                 </form>
             </div>
-<!-- SignUp -->
+            <!-- SIGNUP FORM -->
             <div id="signupForm" class="form-content hidden">
-                <form class="signup-form" action="http://localhost:3000/api/auth/signup"  method="POST">
+                <form class="signup-form" id="signup-form">
                     <div class="input-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name">
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
                     </div>
                     <div class="input-group">
                         <label for="signup-email">Email</label>
-                        <input type="email" id="signup-email" name="email" placeholder="your.email@university.ac.ke">
+                        <input type="email" id="signup-email" name="email" placeholder="your.email@university.ac.ke" required>
                     </div>
                     <div class="input-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
                     </div>
                     <div class="input-group">
                         <label for="signup-password">Password</label>
-                        <input type="password" id="signup-password" name="password" placeholder="Create a password">
+                        <input type="password" id="signup-password" name="password" placeholder="Create a password" required>
                     </div>
                     <div class="input-group">
                         <label for="confirm-password">Confirm Password</label>
-                        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm your password">
+                        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm your password" required>
                     </div>
                     <button type="submit" class="sign-up-button">Sign Up</button>
+                    <div id="signup-error" style="color: red; margin-top: 10px;"></div>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Get references to all the elements we need to interact with
+        // Tab switching
         const loginTab = document.querySelector('[data-form="login"]');
         const signupTab = document.querySelector('[data-form="signup"]');
         const loginForm = document.getElementById('loginForm');
         const signupForm = document.getElementById('signupForm');
 
-        // Add a click event listener to the Login tab button
         loginTab.addEventListener('click', () => {
-            // Remove the 'active' class from the Sign Up tab
             signupTab.classList.remove('active');
-            // Add the 'active' class to the Login tab
             loginTab.classList.add('active');
-            
-            // Hide the Sign Up form and show the Login form
             signupForm.classList.add('hidden');
             loginForm.classList.remove('hidden');
         });
 
-        // Add a click event listener to the Sign Up tab button
         signupTab.addEventListener('click', () => {
-            // Remove the 'active' class from the Login tab
             loginTab.classList.remove('active');
-            // Add the 'active' class to the Sign Up tab
             signupTab.classList.add('active');
-
-            // Hide the Login form and show the Sign Up form
             loginForm.classList.add('hidden');
             signupForm.classList.remove('hidden');
         });
-    </script>
-    <!--
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
 
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyCP_VikzH-QY5X8cMSKVCPPlcpobxT2ykw",
-        authDomain: "help-me-73b04.firebaseapp.com",
-        projectId: "help-me-73b04",
-        storageBucket: "help-me-73b04.firebasestorage.app",
-        messagingSenderId: "375207028376",
-        appId: "1:375207028376:web:ed33d890e7746451e4d2ed",
-        measurementId: "G-NGK6GDNE2F"
-      };
+        // LOGIN SUBMIT
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
+            const res = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, password})
+            });
+            const data = await res.json();
+            if (res.ok) {
+                window.location.href = 'Dashboard.html';
+            } else {
+                document.getElementById('login-error').innerText = data.error || 'Login failed';
+            }
+        });
+
+        // SIGNUP SUBMIT
+        document.getElementById('signup-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('signup-error').innerText = "Passwords do not match.";
+                return;
+            }
+
+            const res = await fetch('http://localhost:3000/api/auth/signup', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name, email, phone, password})
+            });
+            const data = await res.json();
+            if (res.ok) {
+                // Optionally, you can redirect to dashboard or show a success message
+                window.location.href = 'Dashboard.html';
+            } else {
+                document.getElementById('signup-error').innerText = data.error || 'Signup failed';
+            }
+        });
     </script>
-    -->
 </body>
-
 </html>
