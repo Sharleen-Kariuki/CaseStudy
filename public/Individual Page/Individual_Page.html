@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Individual_Page.css">
+    <title>Individual Request</title>
+</head>
+<body>
+    <div class="nav-container">
+        <img src="../images/SOMESHA.png" alt="">
+    <nav class="dashboard-nav">
+        <a href="../Help Comrade/Help_Comrade.html">Find a Comrade to Help</a>
+        <a href="">Student: Get Help</a>
+        <a href="">About Us</a>
+    </nav>
+</div>
+<div class="container">
+    <div class="individual-request">
+        <div class="request-image">
+            <img src="../images/user_profile.jpg" alt="Student Image">
+        </div>
+        <div class="request-details">
+            <h2>John Doe</h2>
+            <h3>School: University of Nairobi</h3>
+            <p>Year: Fourth Year</p>
+            <p>Registration Number: XX7/XXX12/20XX</p>
+            <p>Need KES 60,000 immediately to pay exam fees. If I can't pay today, I can't sit the exam tomorrow. Please help me cross the finish line.</p>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 90%; background-color: rgba(0, 0, 0, 0.5); height: 20px; border-radius: 20px; border: 2px solid grey;"></div>
+            </div>
+            <p>Ksh 6,000 remaining</p>
+            <button>Help Now</button>
+        <script>
+            document.querySelector('button').addEventListener('click', function() {
+                const popup = document.createElement('div');
+                popup.style.position = 'fixed';
+                popup.style.top = '50%';
+                popup.style.left = '50%';
+                popup.style.transform = 'translate(-50%, -50%)';
+                popup.style.backgroundColor = 'white';
+                popup.style.padding = '20px';
+                popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                popup.style.borderRadius = '10px';
+                popup.style.zIndex = '1000';
+
+                popup.innerHTML = `
+                <h3>MPESA FOR YOU</h3>
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" placeholder="Enter phone number"><br><br>
+                <label for="amount">Amount:</label>
+                
+                <input type="number" id="amount" placeholder="Enter amount"><br><br>
+                <button id="help">Help</button>
+                <button id="cancel">Cancel</button>
+                `;
+
+                document.body.appendChild(popup);
+
+                document.getElementById('confirm').addEventListener('click', function() {
+                    alert('Thank you for your help!');
+                    document.body.removeChild(popup);
+                });
+
+                document.getElementById('cancel').addEventListener('click', function() {
+                    document.body.removeChild(popup);
+                });
+            });
+        </script>
+        </div>
+    </div>
+</div>
+    
+</body>
+</html>

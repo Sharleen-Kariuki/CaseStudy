@@ -1,0 +1,103 @@
+/* ...existing code... */
+.nav-container{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.dashboard-nav { display: flex; gap: 12px; }
+.dashboard-nav a{
+   text-decoration: none;
+   color: rgb(0, 0, 0);
+   padding: 15px;
+}
+.dashboard-nav a:hover{
+    background-color: rgb(230, 175, 36);
+    border-radius: 5px;
+}
+
+/* Page container */
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+/* Card layout */
+.individual-request {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  padding: 20px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Image */
+.request-image img {
+  width: 320px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Text/content */
+.request-details h2 {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  color: #0f172a;
+}
+.request-details h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #334155;
+  font-weight: 600;
+}
+.request-details p {
+  margin: 6px 0;
+  color: #475569;
+}
+
+/* Progress */
+.progress-container {
+  margin: 12px 0;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  height: 16px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: var(--progress, 0%); /* set via inline style or JS */
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  transition: width 0.3s ease;
+  border-radius: inherit;
+}
+
+/* Button */
+button {
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.02s ease;
+}
+button:hover { background: #1d4ed8; }
+button:active { transform: translateY(1px); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .individual-request { flex-direction: column; }
+  .request-image img { width: 100%; }
+}
