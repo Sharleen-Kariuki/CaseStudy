@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMESHA - Admin Dashboard</title>
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>SOMESHA</h1>
+            </div>
+            <nav>
+                <div class="nav-item active" onclick="showSection('dashboard')">Dashboard</div>
+                <div class="nav-item" onclick="showSection('students')">Students</div>
+                <div class="nav-item" onclick="showSection('donors')">Donors</div>
+                <div class="nav-item" onclick="showSection('settings')">SETTINGS</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section id="dashboard" class="content-section active">
+                <div class="header">
+                    <h2>ADMIN DASHBOARD</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Donations</h3>
+                        <div class="value">Ksh 84,230</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Requests</h3>
+                        <div class="value">234</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Verified Students</h3>
+                        <div class="value">115</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Requests</h3>
+                        <div class="value">100</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <h3>Latest Students Requests</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <span class="student-name">Kwame Asante</span>
+                                        <span class="student-uni">University of Nairobi</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount-info">
+                                        <span class="amount-total">35,000</span>
+                                        <span class="amount-raised">12,000 raised</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td><button class="btn btn-view">👁 View</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <span class="student-name">Kwame Asante</span>
+                                        <span class="student-uni">University of Nairobi</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount-info">
+                                        <span class="amount-total">35,000</span>
+                                        <span class="amount-raised">12,000 raised</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-approve">✓</button>
+                                    <button class="btn btn-reject">✗</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <h3>Top Funded Students</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <span class="student-name">Kwame Asante</span>
+                                        <span class="student-uni">University of Nairobi</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount-info">
+                                        <span class="amount-total">35,000</span>
+                                        <span class="amount-raised">12,000 raised</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <span class="student-name">Kwame Asante</span>
+                                        <span class="student-uni">University of Nairobi</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount-info">
+                                        <span class="amount-total">35,000</span>
+                                        <span class="amount-raised">12,000 raised</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="students" class="content-section">
+                <div class="header">
+                    <h2>ADMIN DASHBOARD</h2>
+                </div>
+
+                <div class="table-container">
+                    <h3>Students Requests</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Fees Request</th>
+                                <th>Status</th>
+                                <th>Deadline</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <span class="student-name">Kwame Asante</span>
+                                        <span class="student-uni">University of Nairobi</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount-info">
+                                        <span class="amount-total">35,000</span>
+                                        <span class="amount-raised">12,000 raised</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>11th Oct 2025</td>
+                                <td>
+                                    <button class="btn btn-approve">Approve</button>
+                                    <button class="btn btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <span class="student-name">Kwame Asante</span>
+                                        <span class="student-uni">University of Nairobi</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount-info">
+                                        <span class="amount-total">35,000</span>
+                                        <span class="amount-raised">12,000 raised</span>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>11th Oct 2025</td>
+                                <td>
+                                    <button class="btn btn-approve">Approve</button>
+                                    <button class="btn btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="donors" class="content-section">
+                <div class="header">
+                    <h2>ADMIN DASHBOARD</h2>
+                </div>
+
+                <div class="table-container">
+                    <h3>Donors</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Donor</th>
+                                <th>Amount Donated</th>
+                                <th>Student</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Kwame Asante</td>
+                                <td>35,000</td>
+                                <td>Steve</td>
+                            </tr>
+                            <tr>
+                                <td>Kwame Asante</td>
+                                <td>35,000</td>
+                                <td>Steve</td>
+                            </tr>
+                            <tr>
+                                <td>Kwame Asante</td>
+                                <td>35,000</td>
+                                <td>Steve</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="settings" class="content-section">
+                <div class="header">
+                    <h2>SETTINGS</h2>
+                </div>
+
+                <div class="table-container">
+                    <h3>Account Settings</h3>
+                    <p style="padding: 2rem; color: #7f8c8d;">Settings options will be displayed here.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+
+            event.target.classList.add('active');
+        }
+
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-approve')) {
+                alert('Request approved!');
+            }
+            if (e.target.classList.contains('btn-reject')) {
+                alert('Request rejected!');
+            }
+            if (e.target.classList.contains('btn-view')) {
+                alert('View details');
+            }
+        });
+    </script>
+</body>
+
+</html>
