@@ -1,0 +1,70 @@
+.nav-container{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.dashboard-nav a{
+   text-decoration: none;
+   color: rgb(0, 0, 0);
+   padding: 15px;
+}
+.dashboard-nav a:hover{
+    background-color: rgb(230, 175, 36);
+    border-radius: 5px;
+}
+.dashboard-content{
+    display: flex;
+    flex-direction: row;
+}
+.dashboard-image{
+    flex: 1;
+    padding: 20px;
+}
+.dashboard-text{
+    text-align: center;
+    padding: 20px;
+}
+.dashboard-text h1{
+    font-size: 3.5em;
+    margin-bottom: 30px;
+}
+.dashboard-text p{
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+.urgent h2{
+    text-align: center;
+    font-size: 2.0em;
+    text-decoration: underline;
+
+}
+.cards{
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
+
+}
+.card{
+    background-color: rgb(209, 106, 41);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+}
+.about h2{
+    text-align: center;
+
+    font-size: 2.0em;
+    text-decoration: underline;
+}
+.about p{
+    text-align: center;
+  
+    font-size: 1.2em;
+    line-height: 1.6;
+}
