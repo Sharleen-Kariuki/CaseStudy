@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMESHA - Student Authentication</title>
+    <link rel="stylesheet" href="SignUp.css">
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>SOMESHA</h1>
+            <div class="avatar">
+                <img src="../images/avataaars.png" alt="User Avatar" class="avatar">
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+            <h2 class="form-title">Student Login</h2>
+
+            <div class="form-group">
+                <label for="loginEmail">Student email</label>
+                <input type="email" id="loginEmail" required>
+                <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required>
+                <div class="error-message" id="loginPasswordError">Password is required</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign In</button>
+
+            <div class="toggle-text">
+                Don't have an account? <a class="toggle-link" id="showSignup">Sign Up</a>
+            </div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signupForm" class="auth-form hidden">
+            <h2 class="form-title">Student Sign-Up</h2>
+
+            <div class="form-group">
+                <label for="signupName">Full Name</label>
+                <input type="text" id="signupName" required>
+                <div class="error-message" id="signupNameError">Please enter your full name</div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupEmail">Student email</label>
+                <input type="email" id="signupEmail" required>
+                <div class="error-message" id="signupEmailError">Please enter a valid email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" required>
+                <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm password</label>
+                <input type="password" id="confirmPassword" required>
+                <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+            </div>
+
+            <div class="privacy-text">
+                We value your privacy. Your personal details (such as your full name, phone number or student ID) will
+                not be disclosed publicly.<br>
+                Only necessary information about the author will be visible to potential donors.
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+
+            <div class="toggle-text">
+                Have an account? <a class="toggle-link" id="showLogin">Sign In</a>
+            </div>
+        </form>`
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const showSignupLink = document.getElementById('showSignup');
+        const showLoginLink = document.getElementById('showLogin');
+
+        function toggleForms() {
+            if (loginForm.classList.contains('hidden')) {
+                signupForm.classList.add('fade-out');
+                setTimeout(() => {
+                    signupForm.classList.add('hidden');
+                    signupForm.classList.remove('fade-out');
+                    loginForm.classList.remove('hidden');
+                    loginForm.classList.add('fade-in');
+                    setTimeout(() => loginForm.classList.remove('fade-in'), 300);
+                }, 300);
+            } else {
+                loginForm.classList.add('fade-out');
+                setTimeout(() => {
+                    loginForm.classList.add('hidden');
+                    loginForm.classList.remove('fade-out');
+                    signupForm.classList.remove('hidden');
+                    signupForm.classList.add('fade-in');
+                    setTimeout(() => signupForm.classList.remove('fade-in'), 300);
+                }, 300);
+            }
+        }
+
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForms();
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForms();
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail');
+            const password = document.getElementById('loginPassword');
+            let isValid = true;
+
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+
+            if (!email.value || !email.value.includes('@')) {
+                document.getElementById('loginEmailError').classList.add('show');
+                email.classList.add('error');
+                isValid = false;
+            }
+
+            if (!password.value) {
+                document.getElementById('loginPasswordError').classList.add('show');
+                password.classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Login successful! (This is a demo)');
+                loginForm.reset();
+                window.location.href = "../StudentHelp/Student_Help.html";
+
+            }
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('signupName');
+            const email = document.getElementById('signupEmail');
+            const password = document.getElementById('signupPassword');
+            const confirmPass = document.getElementById('confirmPassword');
+            let isValid = true;
+
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+
+            if (!name.value.trim()) {
+                document.getElementById('signupNameError').classList.add('show');
+                name.classList.add('error');
+                isValid = false;
+            }
+
+            if (!email.value || !email.value.includes('@')) {
+                document.getElementById('signupEmailError').classList.add('show');
+                email.classList.add('error');
+                isValid = false;
+            }
+
+            if (!password.value || password.value.length < 6) {
+                document.getElementById('signupPasswordError').classList.add('show');
+                password.classList.add('error');
+                isValid = false;
+            }
+
+            if (password.value !== confirmPass.value) {
+                document.getElementById('confirmPasswordError').classList.add('show');
+                confirmPass.classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Sign up successful! (This is a demo)');
+                signupForm.reset();
+            }
+        });
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function () {
+                if (this.classList.contains('error')) {
+                    this.classList.remove('error');
+                    const errorId = this.id + 'Error';
+                    const errorEl = document.getElementById(errorId);
+                    if (errorEl) {
+                        errorEl.classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
