@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOMESHA - Student Help Platform</title>
     <link rel="stylesheet" href="Student_Help.css">
-
-
 </head>
-
 <body>
     <div class="container">
         <header>
@@ -21,9 +17,9 @@
             </div>
         </header>
 
+        <!-- STEP 1 -->
         <div class="card" id="step1">
             <h2>Make your Request</h2>
-
             <div class="progress-bar">
                 <div class="progress-step active">Who</div>
                 <div class="progress-line"></div>
@@ -31,17 +27,14 @@
                 <div class="progress-line"></div>
                 <div class="progress-step inactive">Submit</div>
             </div>
-
             <div class="form-group">
                 <label>Institution</label>
                 <input type="text" id="institution" placeholder="Enter your institution name">
             </div>
-
             <div class="form-group">
                 <label>Program of study</label>
                 <input type="text" id="program" placeholder="Enter your program">
             </div>
-
             <div class="form-group">
                 <label>Year of Study</label>
                 <select id="year">
@@ -53,18 +46,16 @@
                     <option value="5">Fifth Year</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Registration number</label>
                 <input type="text" id="registration" placeholder="Enter your registration number">
             </div>
-
             <button class="btn-submit" onclick="goToStep2()">Save and Continue</button>
         </div>
 
+        <!-- STEP 2 -->
         <div class="card hidden" id="step2">
             <h2>Make your Request</h2>
-
             <div class="progress-bar">
                 <div class="progress-step active">Who</div>
                 <div class="progress-line completed"></div>
@@ -72,22 +63,18 @@
                 <div class="progress-line"></div>
                 <div class="progress-step inactive">Submit</div>
             </div>
-
             <div class="form-group">
                 <label>Briefly describe your need (less than 200 words)</label>
                 <textarea id="description" placeholder="Describe your situation..." maxlength="1000"></textarea>
             </div>
-
             <div class="form-group">
                 <label>Enter your fee balance</label>
                 <input type="number" id="feeBalance" placeholder="Amount in KES">
             </div>
-
             <div class="form-group">
                 <label>When do you need it by?</label>
                 <input type="date" id="deadline">
             </div>
-
             <div class="form-group">
                 <label>Upload your latest fees statement</label>
                 <div class="file-upload" onclick="document.getElementById('fileInput').click()">
@@ -96,48 +83,46 @@
                     <p style="font-size: 12px; color: #888; margin-top: 8px;">PDF, JPG, PNG (Max 5MB)</p>
                 </div>
             </div>
-
             <button class="btn-submit" onclick="goToStep3()">Save and Continue</button>
         </div>
 
+        <!-- STEP 3 -->
         <div class="card hidden" id="step3">
             <h2>Your Request</h2>
-
             <div class="profile-section">
-                <div class="profile-avatar">
-                    <span class="avatar-icon">👤</span>
-                </div>
+                <div class="profile-avatar"><span class="avatar-icon">👤</span></div>
                 <div style="flex: 1;">
                     <div class="profile-info">
                         <h3>Your Request</h3>
                         <p id="requestSummary"></p>
                     </div>
-
                     <div class="profile-meta">
                         <p id="studentYear"></p>
                         <p id="studentProgram"></p>
                         <p id="studentInstitution"></p>
-                        <a href="#" class="edit-profile">Edit profile</a>
+                        <a href="#" class="edit-profile" onclick="location.reload()">Edit profile</a>
                     </div>
-
                 </div>
             </div>
 
             <div class="request-progress">
                 <div class="progress-info">
-                    <span id="progressText">20 donors so far</span>
-                    <span class="progress-amount">Total: KSh <span id="totalAmount">50,000</span></span>
+                    <span id="progressText">0 donors so far</span>
+                    <span class="progress-amount">Total: KSh <span id="totalAmount">0</span></span>
                 </div>
                 <div class="progress-track">
-                    <div class="progress-fill" id="progressBar" style="width: 70%;">
-                        KES 100,000 still Needed
+                    <div class="progress-fill" id="progressBar" style="width: 0%;">
+                        KES 0 still Needed
                     </div>
                 </div>
                 <div class="progress-info" style="margin-top: 10px;">
                     <span></span>
-                    <span class="progress-deadline">Deadline<br>15th October 2025</span>
+                    <span class="progress-deadline">Deadline<br>—</span>
                 </div>
             </div>
+
+            <!-- Added Submit Request Button with ID -->
+            <button class="btn-submit" id="submitRequestBtn" type="button">Submit Request</button>
 
             <button class="btn-close" onclick="closeRequest()">Close request</button>
         </div>
@@ -145,7 +130,6 @@
 
     <script>
         let formData = {};
-
         document.getElementById('fileInput').addEventListener('change', function (e) {
             const fileName = e.target.files[0]?.name;
             if (fileName) {
@@ -158,12 +142,10 @@
             formData.program = document.getElementById('program').value;
             formData.year = document.getElementById('year').value;
             formData.registration = document.getElementById('registration').value;
-
             if (!formData.institution || !formData.program || !formData.year || !formData.registration) {
                 alert('Please fill in all fields');
                 return;
             }
-
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -173,24 +155,18 @@
             formData.description = document.getElementById('description').value;
             formData.feeBalance = document.getElementById('feeBalance').value;
             formData.deadline = document.getElementById('deadline').value;
-
             if (!formData.description || !formData.feeBalance || !formData.deadline) {
                 alert('Please fill in all fields');
                 return;
             }
-
             document.getElementById('requestSummary').textContent = formData.description;
             document.getElementById('totalAmount').textContent = formData.feeBalance;
-
             document.getElementById('studentYear').textContent = "Year: " + formData.year;
             document.getElementById('studentProgram').textContent = "Program: " + formData.program;
             document.getElementById('studentInstitution').textContent = "Institution: " + formData.institution;
-
-
             const deadlineDate = new Date(formData.deadline);
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             document.querySelector('.progress-deadline').innerHTML = 'Deadline<br>' + deadlineDate.toLocaleDateString('en-GB', options);
-
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step3').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -198,16 +174,13 @@
 
         function closeRequest() {
             if (confirm('Are you sure you want to close this request?')) {
-                alert('Request closed successfully');
+                alert('Request closed (local only).');
                 window.location.href = "../HelpComrade/Help_Comrade.html";
             }
         }
-
-        document.getElementById('navLink').addEventListener('click', function (e) {
-            e.preventDefault();
-            location.reload();
-        });
     </script>
-</body>
 
+    <!-- Added: request -> API integration -->
+    <script src="request.js"></script>
+</body>
 </html>

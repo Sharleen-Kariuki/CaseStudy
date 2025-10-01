@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const generateToken = require("../utils/generateToken");
 
 exports.signup = async (req, res) => {
   try {
@@ -7,14 +8,19 @@ exports.signup = async (req, res) => {
     if (!name || !email || !phone || !password) {
       return res.status(400).json({ error: "All fields required." });
     }
-
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(409).json({ error: "Email already registered." });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, phone, password: hashedPassword });
     await newUser.save();
-    res.status(201).json({ message: "Signup successful!", user: { id: newUser._id, name, email, phone } });
+
+    const token = generateToken(newUser);
+    res.status(201).json({
+      message: "Signup successful!",
+      token,
+      user: { id: newUser._id, name, email, phone, role: newUser.role }
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -32,8 +38,12 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials." });
 
-    // For demo, we just send user info. 
-    res.json({ message: "Login successful!", user: { id: user._id, name: user.name, email: user.email } });
+    const token = generateToken(user);
+    res.json({
+      message: "Login successful!",
+      token,
+      user: { id: user._id, name: user.name, email: user.email, role: user.role }
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOMESHA - Student Authentication</title>
     <link rel="stylesheet" href="SignUp.css">
-
-
 </head>
-
 <body>
     <div class="container">
         <div class="logo">
@@ -81,132 +77,33 @@
             <div class="toggle-text">
                 Have an account? <a class="toggle-link" id="showLogin">Sign In</a>
             </div>
-        </form>`
+        </form>
     </div>
 
+    <!-- Existing inline validation script (kept if you still want UI feedback).
+         The API auth logic now lives in auth.js -->
     <script>
-        const loginForm = document.getElementById('loginForm');
-        const signupForm = document.getElementById('signupForm');
-        const showSignupLink = document.getElementById('showSignup');
-        const showLoginLink = document.getElementById('showLogin');
+        // (Optional) You may remove this block if auth.js handles all validation UX.
+        // Keeping only minimal toggling in case you rely on animations.
+        const loginFormEl = document.getElementById('loginForm');
+        const signupFormEl = document.getElementById('signupForm');
+        const showSignupLinkEl = document.getElementById('showSignup');
+        const showLoginLinkEl = document.getElementById('showLogin');
 
-        function toggleForms() {
-            if (loginForm.classList.contains('hidden')) {
-                signupForm.classList.add('fade-out');
-                setTimeout(() => {
-                    signupForm.classList.add('hidden');
-                    signupForm.classList.remove('fade-out');
-                    loginForm.classList.remove('hidden');
-                    loginForm.classList.add('fade-in');
-                    setTimeout(() => loginForm.classList.remove('fade-in'), 300);
-                }, 300);
-            } else {
-                loginForm.classList.add('fade-out');
-                setTimeout(() => {
-                    loginForm.classList.add('hidden');
-                    loginForm.classList.remove('fade-out');
-                    signupForm.classList.remove('hidden');
-                    signupForm.classList.add('fade-in');
-                    setTimeout(() => signupForm.classList.remove('fade-in'), 300);
-                }, 300);
-            }
-        }
-
-        showSignupLink.addEventListener('click', (e) => {
+        showSignupLinkEl.addEventListener('click', (e) => {
             e.preventDefault();
-            toggleForms();
+            signupFormEl.classList.remove('hidden');
+            loginFormEl.classList.add('hidden');
         });
 
-        showLoginLink.addEventListener('click', (e) => {
+        showLoginLinkEl.addEventListener('click', (e) => {
             e.preventDefault();
-            toggleForms();
-        });
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const email = document.getElementById('loginEmail');
-            const password = document.getElementById('loginPassword');
-            let isValid = true;
-
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
-            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
-
-            if (!email.value || !email.value.includes('@')) {
-                document.getElementById('loginEmailError').classList.add('show');
-                email.classList.add('error');
-                isValid = false;
-            }
-
-            if (!password.value) {
-                document.getElementById('loginPasswordError').classList.add('show');
-                password.classList.add('error');
-                isValid = false;
-            }
-
-            if (isValid) {
-                alert('Login successful! (This is a demo)');
-                loginForm.reset();
-                window.location.href = "../StudentHelp/Student_Help.html";
-
-            }
-        });
-
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('signupName');
-            const email = document.getElementById('signupEmail');
-            const password = document.getElementById('signupPassword');
-            const confirmPass = document.getElementById('confirmPassword');
-            let isValid = true;
-
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
-            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
-
-            if (!name.value.trim()) {
-                document.getElementById('signupNameError').classList.add('show');
-                name.classList.add('error');
-                isValid = false;
-            }
-
-            if (!email.value || !email.value.includes('@')) {
-                document.getElementById('signupEmailError').classList.add('show');
-                email.classList.add('error');
-                isValid = false;
-            }
-
-            if (!password.value || password.value.length < 6) {
-                document.getElementById('signupPasswordError').classList.add('show');
-                password.classList.add('error');
-                isValid = false;
-            }
-
-            if (password.value !== confirmPass.value) {
-                document.getElementById('confirmPasswordError').classList.add('show');
-                confirmPass.classList.add('error');
-                isValid = false;
-            }
-
-            if (isValid) {
-                alert('Sign up successful! (This is a demo)');
-                signupForm.reset();
-            }
-        });
-
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', function () {
-                if (this.classList.contains('error')) {
-                    this.classList.remove('error');
-                    const errorId = this.id + 'Error';
-                    const errorEl = document.getElementById(errorId);
-                    if (errorEl) {
-                        errorEl.classList.remove('show');
-                    }
-                }
-            });
+            signupFormEl.classList.add('hidden');
+            loginFormEl.classList.remove('hidden');
         });
     </script>
-</body>
 
+    <!-- Added: auth.js integration -->
+    <script src="auth.js"></script>
+</body>
 </html>

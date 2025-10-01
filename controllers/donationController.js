@@ -2,10 +2,10 @@ const FeeRequest = require("../models/FeeRequest");
 const Donation = require("../models/Donation");
 const Transaction = require("../models/Transaction");
 
-// Make a donation to a fee request
 exports.makeDonation = async (req, res) => {
   try {
-    const { donor, requestId, amount } = req.body;
+    const { requestId, amount } = req.body;
+    const donor = req.user?.id;
 
     if (!donor || !requestId || !amount) {
       return res.status(400).json({ error: "All fields required." });
@@ -14,17 +14,15 @@ exports.makeDonation = async (req, res) => {
     const request = await FeeRequest.findById(requestId);
     if (!request) return res.status(404).json({ error: "Fee request not found." });
 
-    // Now we add the donor to request
+    // Update progress
     request.donors.push({ donor, amount });
     request.amountRaised += amount;
     if (request.amountRaised >= request.amountNeeded) request.status = "completed";
     await request.save();
 
-    // Creating the donation record
     const donation = new Donation({ donor, request: requestId, amount });
     await donation.save();
 
-    // Creating of the  transaction
     const transaction = new Transaction({
       fromUser: donor,
       toUser: request.requester,
@@ -35,7 +33,7 @@ exports.makeDonation = async (req, res) => {
     });
     await transaction.save();
 
-    res.json({ message: "Donation successful!", donation, transaction, updatedRequest: request });
+    res.json({ message: "Donation recorded!", donation, transaction, updatedRequest: request });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,11 +1,9 @@
 const FeeRequest = require("../models/FeeRequest");
-const User = require("../models/User");
 
 exports.createFeeRequest = async (req, res) => {
   try {
     const { amountNeeded, course, university, semester, deadline, description } = req.body;
-    const requester = req.body.requester || req.user?.id; // Add auth in production
-
+    const requester = req.user?.id;
     if (!requester || !amountNeeded || !course || !university || !semester || !deadline || !description) {
       return res.status(400).json({ error: "All fields required." });
     }
@@ -27,21 +25,39 @@ exports.createFeeRequest = async (req, res) => {
   }
 };
 
-
 exports.getFeeRequests = async (req, res) => {
   try {
-    const requests = await FeeRequest.find().populate("requester donors.donor", "name email");
+    const requests = await FeeRequest.find().sort({ createdAt: -1 })
+      .populate("requester donors.donor", "name email role");
     res.json(requests);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-//Here we filter requests by the user
+
 exports.getMyFeeRequests = async (req, res) => {
   try {
     const requester = req.params.userId || req.user?.id;
     const requests = await FeeRequest.find({ requester }).populate("donors.donor", "name email");
     res.json(requests);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!["pending", "completed", "failed"].includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+    const request = await FeeRequest.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    if (!request) return res.status(404).json({ error: "Not found" });
+    res.json({ message: "Status updated", request });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
