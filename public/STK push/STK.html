@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="STK.css" />
+  <title>STK Push — Simple Demo</title>
+  
+</head>
+<body>
+  <div class="card">
+    <h1>STK Push</h1>
+    <form id="stkForm">
+      <div>
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="2547XXXXXXXX" required pattern="^2547\d{8}$" />
+      </div>
+      <div>
+        <label for="amount">Amount (KES)</label>
+        <input type="number" id="amount" name="amount" placeholder="100" required min="1" />
+      </div>
+      <button type="submit">Submit</button>
+      <button type="button" onclick="window.location.href='../Help Comrade/Help_Comrade.html'">Cancel</button>
+      <div id="status" class="status"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('stkForm');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      status.textContent = '';
+
+      const phone = document.getElementById('phone').value.trim();
+      const amount = document.getElementById('amount').value.trim();
+
+      if(!/^2547\d{8}$/.test(phone)){
+        status.textContent = 'Invalid phone number format.';
+        status.style.color = 'red';
+        return;
+      }
+
+      if(!amount || amount <= 0){
+        status.textContent = 'Please enter a valid amount.';
+        status.style.color = 'red';
+        return;
+      }
+
+      status.textContent = `STK Push request sent to ${phone} for KES ${amount}.`;
+      status.style.color = 'green';
+    });
+  </script>
+</body>
+</html>
