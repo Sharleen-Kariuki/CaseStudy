@@ -14,7 +14,16 @@ const feeRequestSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     date: { type: Date, default: Date.now }
   }],
-  status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" }
+  status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" },
+
+  
+  reviewStatus: { type: String, enum: ["unreviewed", "approved", "rejected"], default: "unreviewed", index: true },
+  reviewNotes: { type: String },
+  reviewedAt: { type: Date },
+  reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+  
+  lastEditedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 }, {
   timestamps: true
 });

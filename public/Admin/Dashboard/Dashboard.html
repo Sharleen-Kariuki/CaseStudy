@@ -9,9 +9,7 @@
 <body>
   <div class="container">
     <aside class="sidebar">
-      <div class="logo">
-        <h1>Somesha</h1>
-      </div>
+      <div class="logo"><h1>Somesha</h1></div>
       <div class="nav-item active" data-section="overview">Overview</div>
       <div class="nav-item" data-section="requests">Fee Requests</div>
       <div class="nav-item" data-section="analytics">Analytics</div>
@@ -26,28 +24,12 @@
           <small id="lastUpdated"></small>
         </div>
         <div class="stats-grid">
-          <div class="stat-card">
-            <h3>Users</h3>
-            <div id="ov-users" class="value">—</div>
-          </div>
-            <div class="stat-card">
-            <h3>Fee Requests</h3>
-            <div id="ov-requests" class="value">—</div>
-          </div>
-          <div class="stat-card">
-            <h3>Donations</h3>
-            <div id="ov-donations" class="value">—</div>
-          </div>
-          <div class="stat-card">
-            <h3>Transactions</h3>
-            <div id="ov-transactions" class="value">—</div>
-          </div>
-          <div class="stat-card">
-            <h3>Total Raised (KES)</h3>
-            <div id="ov-raised" class="value">—</div>
-          </div>
+          <div class="stat-card"><h3>Users</h3><div id="ov-users" class="value">—</div></div>
+          <div class="stat-card"><h3>Fee Requests</h3><div id="ov-requests" class="value">—</div></div>
+          <div class="stat-card"><h3>Donations</h3><div id="ov-donations" class="value">—</div></div>
+          <div class="stat-card"><h3>Transactions</h3><div id="ov-transactions" class="value">—</div></div>
+          <div class="stat-card"><h3>Total Raised (KES)</h3><div id="ov-raised" class="value">—</div></div>
         </div>
-
         <div class="table-container">
           <h3>Recent Fee Requests</h3>
           <table>
@@ -66,11 +48,9 @@
         </div>
       </section>
 
-      <!-- REQUESTS MANAGEMENT -->
+      <!-- REQUESTS -->
       <section id="section-requests" class="content-section">
-        <div class="header">
-          <h2>Manage Fee Requests</h2>
-        </div>
+        <div class="header"><h2>Manage Fee Requests</h2></div>
         <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;">
           <select id="filterStatus">
             <option value="">All Statuses</option>
@@ -78,8 +58,15 @@
             <option value="completed">Completed</option>
             <option value="failed">Failed</option>
           </select>
+          <select id="filterReview">
+            <option value="">All Reviews</option>
+            <option value="unreviewed">Unreviewed</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
           <input id="searchInput" type="text" placeholder="Search course / university / description" style="flex:1; min-width:240px;"/>
           <button class="btn" id="refreshRequestsBtn" style="background:#8b6b5c; color:#fff;">Refresh</button>
+          <button class="btn" id="openStkBtn" style="background:#6d534a; color:#fff;">STK Push</button>
         </div>
         <div class="table-container">
           <h3>Fee Requests</h3>
@@ -90,11 +77,12 @@
                 <th>Course / Univ</th>
                 <th>Progress</th>
                 <th>Status</th>
-                <th>Change</th>
+                <th>Review</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="admin-requests">
-              <tr><td colspan="5" style="opacity:.6;">Loading...</td></tr>
+              <tr><td colspan="6" style="opacity:.6;">Loading...</td></tr>
             </tbody>
           </table>
           <div style="margin-top:1rem; display:flex; gap:.5rem; align-items:center;">
@@ -107,20 +95,18 @@
 
       <!-- ANALYTICS -->
       <section id="section-analytics" class="content-section">
-        <div class="header">
-          <h2>Analytics</h2>
-        </div>
+        <div class="header"><h2>Analytics</h2></div>
         <div class="stats-grid">
           <div class="stat-card">
             <h3>Completion Distribution</h3>
             <canvas id="bucketChart" height="140"></canvas>
           </div>
-          <div class="stat-card">
+            <div class="stat-card">
             <h3>Donations (14d)</h3>
             <canvas id="donationChart" height="140"></canvas>
           </div>
           <div class="stat-card" style="grid-column: span 2;">
-            <h3>Top Active Requests (Lowest Remaining)</h3>
+            <h3>Top Active Requests</h3>
             <div id="top-active-list" style="font-size:.85rem;">
               <p style="opacity:.6;">Loading...</p>
             </div>
@@ -128,6 +114,78 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+
+  <div id="edit-modal" class="modal hidden">
+    <h3>Edit Fee Request</h3>
+    <form id="editForm">
+      <input type="hidden" id="edit-id" />
+      <label>Course <input type="text" id="edit-course" required></label>
+      <label>University <input type="text" id="edit-university" required></label>
+      <label>Semester <input type="text" id="edit-semester" required></label>
+      <label>Amount Needed <input type="number" id="edit-amount" required min="1"></label>
+      <label>Deadline <input type="date" id="edit-deadline" required></label>
+      <label>Description <textarea id="edit-description" rows="4" required></textarea></label>
+      <label>Status
+        <select id="edit-status">
+          <option value="pending">pending</option>
+          <option value="completed">completed</option>
+          <option value="failed">failed</option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button type="submit" class="btn" style="background:#8b6b5c; color:#fff;">Save</button>
+        <button type="button" class="btn" id="closeEdit">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="review-modal" class="modal hidden">
+    <h3>Review Request</h3>
+    <form id="reviewForm">
+      <input type="hidden" id="review-id" />
+      <label>Action
+        <select id="review-action">
+          <option value="approve">Approve</option>
+          <option value="reject">Reject</option>
+        </select>
+      </label>
+      <label>Notes (optional)
+        <textarea id="review-notes" rows="3"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button type="submit" class="btn" style="background:#6d534a; color:#fff;">Submit Review</button>
+        <button type="button" class="btn" id="closeReview">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="delete-modal" class="modal hidden">
+    <h3>Delete Request</h3>
+    <p id="delete-text" style="margin:1rem 0;">Are you sure?</p>
+    <div class="modal-actions">
+      <button id="confirmDelete" class="btn" style="background:#c0392b; color:#fff;">Delete</button>
+      <button id="closeDelete" class="btn">Cancel</button>
+    </div>
+  </div>
+
+  <div id="stk-modal" class="modal hidden">
+    <h3>Admin STK Push</h3>
+    <form id="stkFormAdmin">
+      <label>Request ID <input type="text" id="stk-requestId" placeholder="Existing fee request ID" required></label>
+      <label>Phone (2547XXXXXXXX) <input type="tel" id="stk-phone" pattern="^2547\\d{8}$" required></label>
+      <label>Amount (KES) <input type="number" id="stk-amount" min="1" required></label>
+      <label>Reference <input type="text" id="stk-reference" required></label>
+      <label>Optional Donor UserId <input type="text" id="stk-donorUserId" placeholder="(leave blank to use admin)"></label>
+      <div class="modal-actions">
+        <button type="submit" class="btn" style="background:#8b6b5c; color:#fff;">Send STK</button>
+        <button type="button" class="btn" id="closeStk">Cancel</button>
+      </div>
+      <div id="stk-status" style="margin-top:.5rem; font-size:.85rem;"></div>
+    </form>
   </div>
 
   <script src="dashboard.js"></script>

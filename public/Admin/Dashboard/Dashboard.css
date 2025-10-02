@@ -323,3 +323,108 @@
   @media (max-width:900px){
     .stats-grid { grid-template-columns:1fr; }
   }
+    /* Modal styles */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(3px);
+    z-index: 900;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 420px;
+    max-width: 92%;
+    background: #fff;
+    border-radius: 14px;
+    transform: translate(-50%, -50%);
+    padding: 1.25rem 1.5rem 1.5rem;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+    z-index: 901;
+    display: flex;
+    flex-direction: column;
+    animation: modalIn .22s ease;
+  }
+  
+  @keyframes modalIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+  }
+  
+  .modal h3 {
+    margin: 0 0 .75rem;
+    font-size: 1.15rem;
+    color: #2c3e50;
+  }
+  
+  .modal form label {
+    display: flex;
+    flex-direction: column;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: .6rem;
+    gap: .35rem;
+  }
+  
+  .modal input,
+  .modal textarea,
+  .modal select {
+    padding: .55rem .65rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: .85rem;
+    resize: vertical;
+    font-family: inherit;
+  }
+  
+  .modal-actions {
+    display:flex;
+    justify-content:flex-end;
+    gap:.6rem;
+    margin-top: .6rem;
+  }
+  
+  .hidden { display: none !important; }
+  
+  .badge-review {
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:12px;
+    font-size:.65rem;
+    font-weight:600;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+  .badge-review-unreviewed { background:#ececec; color:#555; }
+  .badge-review-approved { background:#d4edda; color:#155724; }
+  .badge-review-rejected { background:#f8d7da; color:#721c24; }
+  
+  .action-buttons {
+    display: flex;
+    gap: .35rem;
+    flex-wrap: wrap;
+  }
+  .action-buttons button {
+    font-size: .65rem;
+    padding: .3rem .55rem;
+    background:#8b6b5c;
+    color:#fff;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    line-height:1.1;
+  }
+  .action-buttons button.delete {
+    background:#c0392b;
+  }
+  .action-buttons button.review {
+    background:#6d534a;
+  }
+  .action-buttons button:hover {
+    opacity:.9;
+  }

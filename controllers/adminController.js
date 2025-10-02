@@ -5,7 +5,7 @@ const Transaction = require("../models/Transaction");
 const mongoose = require("mongoose");
 
 /**
- * Basic aggregated counts & total raised
+ * Overview (unchanged conceptually, returns counts + totalRaised)
  */
 exports.overview = async (req, res) => {
   try {
@@ -30,17 +30,14 @@ exports.overview = async (req, res) => {
 };
 
 /**
- * Fee requests listing with optional status & search
- * Query params:
- *   status=pending|completed|failed (optional)
- *   search=string (matches course/university/description)
- *   page, limit
+ * Paginated + filterable list
  */
 exports.listFeeRequests = async (req, res) => {
   try {
-    const { status, search, page = 1, limit = 20 } = req.query;
+    const { status, search, page = 1, limit = 20, reviewStatus } = req.query;
     const query = {};
     if (status) query.status = status;
+    if (reviewStatus) query.reviewStatus = reviewStatus;
     if (search) {
       query.$or = [
         { course: new RegExp(search, "i") },
@@ -48,7 +45,6 @@ exports.listFeeRequests = async (req, res) => {
         { description: new RegExp(search, "i") }
       ];
     }
-
     const skip = (Number(page) - 1) * Number(limit);
 
     const [items, total] = await Promise.all([
@@ -72,18 +68,97 @@ exports.listFeeRequests = async (req, res) => {
 };
 
 /**
- * Rich metrics for dashboard visualizations
- *  - donationsByDay (last 14 days)
- *  - topActiveRequests (not completed)
- *  - recentRequests
- *  - completionBuckets
+ * Single fee request detail
+ */
+exports.getFeeRequest = async (req, res) => {
+  try {
+    const fr = await FeeRequest.findById(req.params.id)
+      .populate("requester", "name email role")
+      .populate("reviewedBy", "name email role")
+      .populate("donors.donor", "name email");
+    if (!fr) return res.status(404).json({ error: "Fee request not found" });
+    res.json(fr);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * Admin edit (limited fields)
+ */
+exports.updateFeeRequest = async (req, res) => {
+  try {
+    const allowed = ["amountNeeded", "course", "university", "semester", "deadline", "description", "status"];
+    const updates = {};
+    for (const k of allowed) {
+      if (k in req.body) updates[k] = req.body[k];
+    }
+    if (!Object.keys(updates).length) {
+      return res.status(400).json({ error: "No valid fields to update" });
+    }
+
+    updates.lastEditedBy = req.user.id;
+    const updated = await FeeRequest.findByIdAndUpdate(req.params.id, updates, { new: true })
+      .populate("requester", "name email")
+      .populate("reviewedBy", "name email");
+    if (!updated) return res.status(404).json({ error: "Fee request not found" });
+    res.json({ message: "Updated", request: updated });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * Review (approve / reject) with notes
+ * Body: { action: "approve"|"reject", notes?: string }
+ */
+exports.reviewFeeRequest = async (req, res) => {
+  try {
+    const { action, notes } = req.body;
+    if (!["approve", "reject"].includes(action)) {
+      return res.status(400).json({ error: "Invalid action" });
+    }
+    const reviewStatus = action === "approve" ? "approved" : "rejected";
+    const fr = await FeeRequest.findByIdAndUpdate(
+      req.params.id,
+      {
+        reviewStatus,
+        reviewNotes: notes || null,
+        reviewedAt: new Date(),
+        reviewedBy: req.user.id
+      },
+      { new: true }
+    )
+      .populate("requester", "name email")
+      .populate("reviewedBy", "name email");
+    if (!fr) return res.status(404).json({ error: "Not found" });
+    res.json({ message: "Review updated", request: fr });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * Delete (hard delete—consider soft delete if needed)
+ */
+exports.deleteFeeRequest = async (req, res) => {
+  try {
+    const fr = await FeeRequest.findByIdAndDelete(req.params.id);
+    if (!fr) return res.status(404).json({ error: "Not found" });
+    res.json({ message: "Deleted", id: fr._id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * Analytics metrics (previous)
  */
 exports.metrics = async (req, res) => {
   try {
     const now = new Date();
-    const start = new Date(now.getTime() - 13 * 24 * 60 * 60 * 1000); // 14 day window
+    const start = new Date(now.getTime() - 13 * 24 * 60 * 60 * 1000);
 
-    // Donations by day (based on Donation.date)
     const donationsByDay = await Donation.aggregate([
       { $match: { date: { $gte: start } } },
       {
@@ -112,13 +187,11 @@ exports.metrics = async (req, res) => {
       { $sort: { date: 1 } }
     ]);
 
-    // Recent 5 fee requests
     const recentRequests = await FeeRequest.find({})
       .sort({ createdAt: -1 })
       .limit(5)
-      .select("course university amountNeeded amountRaised status createdAt");
+      .select("course university amountNeeded amountRaised status createdAt reviewStatus");
 
-    // Top 5 active (not completed) by remaining amount
     const topActiveRequests = await FeeRequest.aggregate([
       { $match: { status: { $ne: "completed" } } },
       {
@@ -139,24 +212,18 @@ exports.metrics = async (req, res) => {
         $project: {
           course: 1,
           university: 1,
-            amountNeeded: 1,
+          amountNeeded: 1,
           amountRaised: 1,
           remaining: 1,
           pct: { $round: ["$pct", 1] },
-          status: 1
+          status: 1,
+          reviewStatus: 1
         }
       }
     ]);
 
-    // Completion buckets
     const allForBuckets = await FeeRequest.find({}, "amountNeeded amountRaised");
-    const buckets = {
-      "0-25": 0,
-      "25-50": 0,
-      "50-75": 0,
-      "75-99": 0,
-      "100": 0
-    };
+    const buckets = { "0-25": 0, "25-50": 0, "50-75": 0, "75-99": 0, "100": 0 };
     allForBuckets.forEach(r => {
       if (r.amountNeeded <= 0) return;
       const pct = (r.amountRaised / r.amountNeeded) * 100;
