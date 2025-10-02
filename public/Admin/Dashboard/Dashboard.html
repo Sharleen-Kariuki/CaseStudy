@@ -1,78 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Somesha Admin Dashboard</title>
-    <link rel="stylesheet" href="Dashboard.css">
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Somesha</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="Dashboard.css"/>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="logo">
-                <h1>ADMIN</h1>
-            </div>
-            <div class="nav-item active">Overview</div>
-            <div class="nav-item">Fee Requests</div>
-            <div class="nav-item" onclick="logout()">Logout</div>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>Somesha</h1>
+      </div>
+      <div class="nav-item active" data-section="overview">Overview</div>
+      <div class="nav-item" data-section="requests">Fee Requests</div>
+      <div class="nav-item" data-section="analytics">Analytics</div>
+      <div class="nav-item" id="logoutBtn">Logout</div>
+    </aside>
+
+    <main class="main-content">
+      <!-- OVERVIEW -->
+      <section id="section-overview" class="content-section active">
+        <div class="header">
+          <h2>Platform Overview</h2>
+          <small id="lastUpdated"></small>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Users</h3>
+            <div id="ov-users" class="value">—</div>
+          </div>
+            <div class="stat-card">
+            <h3>Fee Requests</h3>
+            <div id="ov-requests" class="value">—</div>
+          </div>
+          <div class="stat-card">
+            <h3>Donations</h3>
+            <div id="ov-donations" class="value">—</div>
+          </div>
+          <div class="stat-card">
+            <h3>Transactions</h3>
+            <div id="ov-transactions" class="value">—</div>
+          </div>
+          <div class="stat-card">
+            <h3>Total Raised (KES)</h3>
+            <div id="ov-raised" class="value">—</div>
+          </div>
         </div>
 
-        <div class="main-content">
-            <div class="header">
-                <h2>System Overview</h2>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Users</h3>
-                    <div class="value" id="ov-users">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Fee Requests</h3>
-                    <div class="value" id="ov-requests">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Donations</h3>
-                    <div class="value" id="ov-donations">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Transactions</h3>
-                    <div class="value" id="ov-transactions">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Raised</h3>
-                    <div class="value" id="ov-raised">KES 0</div>
-                </div>
-            </div>
-
-            <div class="table-container">
-                <h3>Fee Requests</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Requester</th>
-                            <th>University</th>
-                            <th>Course</th>
-                            <th>Progress</th>
-                            <th>Status</th>
-                            <th>Update</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-requests">
-                        <tr><td colspan="6">Loading...</td></tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-container">
+          <h3>Recent Fee Requests</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Course / University</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody id="recent-requests-body">
+              <tr><td colspan="4" style="opacity:.6;">Loading...</td></tr>
+            </tbody>
+          </table>
         </div>
-    </div>
+      </section>
 
-    <script>
-        function logout() {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            window.location.href = "/SignUp/SignUp.html";
-        }
-    </script>
-    <!-- Added admin logic -->
-    <script src="dashboard.js"></script>
+      <!-- REQUESTS MANAGEMENT -->
+      <section id="section-requests" class="content-section">
+        <div class="header">
+          <h2>Manage Fee Requests</h2>
+        </div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;">
+          <select id="filterStatus">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+            <option value="failed">Failed</option>
+          </select>
+          <input id="searchInput" type="text" placeholder="Search course / university / description" style="flex:1; min-width:240px;"/>
+          <button class="btn" id="refreshRequestsBtn" style="background:#8b6b5c; color:#fff;">Refresh</button>
+        </div>
+        <div class="table-container">
+          <h3>Fee Requests</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Requester</th>
+                <th>Course / Univ</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Change</th>
+              </tr>
+            </thead>
+            <tbody id="admin-requests">
+              <tr><td colspan="5" style="opacity:.6;">Loading...</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:1rem; display:flex; gap:.5rem; align-items:center;">
+            <button class="btn" id="prevPageBtn">Prev</button>
+            <span id="paginationInfo" style="font-size:.85rem; opacity:.7;">Page 1</span>
+            <button class="btn" id="nextPageBtn">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section id="section-analytics" class="content-section">
+        <div class="header">
+          <h2>Analytics</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Completion Distribution</h3>
+            <canvas id="bucketChart" height="140"></canvas>
+          </div>
+          <div class="stat-card">
+            <h3>Donations (14d)</h3>
+            <canvas id="donationChart" height="140"></canvas>
+          </div>
+          <div class="stat-card" style="grid-column: span 2;">
+            <h3>Top Active Requests (Lowest Remaining)</h3>
+            <div id="top-active-list" style="font-size:.85rem;">
+              <p style="opacity:.6;">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="dashboard.js"></script>
 </body>
 </html>

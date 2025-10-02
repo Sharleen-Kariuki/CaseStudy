@@ -272,4 +272,54 @@
                 padding: 0.75rem 0.5rem;
             }
         }
-   
+   /* (Existing styles preserved; appended below for badges & charts) */
+.badge {
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.3px;
+  }
+  .badge-pending { background:#fff3cd; color:#856404; }
+  .badge-completed { background:#d4edda; color:#155724; }
+  .badge-failed { background:#f8d7da; color:#721c24; }
+  
+  .progress-mini {
+    background:#f0f1f3;
+    height:8px;
+    width:100%;
+    border-radius:4px;
+    overflow:hidden;
+    position:relative;
+  }
+  .progress-mini span {
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,#8b6b5c,#6d534a);
+  }
+  
+  select, input[type=text] {
+    padding:.55rem .75rem;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  
+  canvas {
+    width:100%;
+  }
+  
+  .btn {
+    background:#eee;
+    color:#222;
+  }
+  
+  .btn:hover {
+    background:#ddd;
+  }
+  
+  /* Responsive tweak for analytics grid if needed */
+  @media (max-width:900px){
+    .stats-grid { grid-template-columns:1fr; }
+  }
