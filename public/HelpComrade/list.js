@@ -3,7 +3,8 @@ const listContainer = document.getElementById("requestsList");
 
 async function loadRequests() {
   try {
-    const res = await fetch("/api/fee-request");
+    const res = await fetch("http://localhost:3000/api/fee-request");
+    if (!res.ok) throw new Error(`Failed to fetch requests: ${res.statusText}`);
     const data = await res.json();
     listContainer.innerHTML = "";
     data.forEach(r => {
@@ -31,8 +32,14 @@ function openDonation(request) {
     window.location.href = "/SignUp/SignUp.html";
     return;
   }
-  const amount = prompt(`Enter amount to donate to ${request.course} @ ${request.university}`);
-  if (!amount || isNaN(amount)) return;
+  if (!amount || isNaN(amount) || Number(amount) <= 0) {
+    alert("Please enter a valid donation amount.");
+    return;
+  }
+  if (!phone || !/^2547\d{8}$/.test(phone)) {
+    alert("Please enter a valid M-Pesa phone number (2547XXXXXXXX).");
+    return;
+  }
 
   // Option 1: STK push (preferred)
   const phone = prompt("Enter M-Pesa phone (2547XXXXXXXX):");

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Dashboard/Dashboard.css">
+    <link rel="stylesheet" href="Dashboard.css">
     <title>Dashboard</title>
 </head>
 
@@ -29,7 +29,8 @@
                 bring positive change back to their home. Invest in a dream. Change a life.</p>
         </div>
     </div>
-    <div class="urgent">
+    <!-- <div class="urgent">
+
         <h2>Urgent Needs</h2>
         <div class="cards">
             <div class="card">
@@ -76,7 +77,14 @@
                 <button>Help Now</button>
             </div>
         </div>
-    </div>
+    </div> -->
+    <!-- Dynamic Render -->
+    <div class="urgent">
+        <h2>Urgent Needs</h2>
+        <div id="urgentCards" class="cards">
+          <p style="opacity:.6;">Loading...</p>
+        </div>
+      </div>
     <div class="about">
         <h2>About Us</h2>
         <p>Somesha was created to connect needy university students with a caring community of supporters. We harness
@@ -85,6 +93,7 @@
             power to give back to society.</p>
     </div>
 
+    <script src="./dashboard.js"></script>
 </body>
 
 </html>
