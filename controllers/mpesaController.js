@@ -141,3 +141,23 @@ async function simulateSuccess(tx, amount, requestId, donorId) {
 
   console.log("Donation success processed for tx:", tx._id);
 }
+/**
+ * Admin-initiated STK push (simulate donating as admin or specified donorUserId)
+ * Body: { phone, amount, reference, requestId, donorUserId? }
+ */
+exports.adminStkPush = async (req, res) => {
+  try {
+    if (!["admin", "superadmin"].includes(req.user.role)) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+    const { phone, amount, reference, requestId, donorUserId } = req.body;
+    if (!phone || !amount || !reference || !requestId) {
+      return res.status(400).json({ error: "phone, amount, reference, requestId required" });
+    }
+    // Reuse existing logic - we impersonate donor as either donorUserId or the admin themselves
+    req.user.id = donorUserId || req.user.id;
+    return exports.stkPush(req, res);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

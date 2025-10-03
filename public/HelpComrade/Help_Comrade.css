@@ -261,3 +261,258 @@ button:hover {
         width: 100%;
     }
 }
+/* ----- Donation Modal & Enhanced STK Push UI (Appended) ----- */
+
+.donation-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(3px);
+    z-index: 950;
+  }
+  .donation-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 480px;
+    max-width: 94%;
+    background: #fff;
+    border-radius: 18px;
+    transform: translate(-50%, -50%);
+    padding: 1.75rem 1.75rem 2rem;
+    box-shadow: 0 20px 44px -10px rgba(0,0,0,0.25);
+    z-index: 951;
+    display: flex;
+    flex-direction: column;
+    animation: modalIn .25s ease;
+    font-family: inherit;
+  }
+  
+  @keyframes modalIn {
+    from { opacity:0; transform:translate(-50%, -42%); }
+    to { opacity:1; transform:translate(-50%, -50%); }
+  }
+  
+  .donation-modal h2 {
+    margin: 0 0 .65rem;
+    font-size: 1.35rem;
+    color: #2c3e50;
+  }
+  
+  .donation-summary {
+    margin: 0 0 1.1rem;
+    font-size: .9rem;
+    line-height: 1.4;
+    color: #555;
+    background: #f8f9fa;
+    padding: .75rem .9rem;
+    border: 1px solid #e2e6ea;
+    border-radius: 10px;
+  }
+  
+  .hidden { display: none !important; }
+  
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    gap: .35rem;
+  }
+  
+  .form-row label {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    color: #6d534a;
+  }
+  
+  .form-row input[type=number],
+  .form-row input[type=tel],
+  .form-row input[type=text] {
+    padding: .7rem .75rem;
+    border: 1px solid #d7d7d9;
+    border-radius: 10px;
+    font-size: .9rem;
+    transition: border .2s, background .2s;
+    background: #fafafa;
+  }
+  
+  .form-row input:focus {
+    outline: none;
+    border-color: #8b6b5c;
+    background: #fff;
+  }
+  
+  .hint {
+    font-size: .65rem;
+    color: #777;
+    letter-spacing: .3px;
+  }
+  
+  .amount-quick {
+    display: flex;
+    gap: .65rem;
+    flex-wrap: wrap;
+  }
+  
+  .amount-quick input {
+    flex: 1 1 140px;
+  }
+  
+  .quick-buttons {
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+  }
+  
+  .quick-buttons button {
+    background: #eee;
+    color: #444;
+    border: none;
+    padding: .5rem .65rem;
+    font-size: .7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: .3px;
+    transition: background .2s;
+  }
+  .quick-buttons button:hover {
+    background: #ddd;
+  }
+  
+  .progress-preview {
+    margin-top: .2rem;
+  }
+  
+  .progress-outer {
+    width: 100%;
+    background: #ececec;
+    border-radius: 12px;
+    height: 14px;
+    position: relative;
+    overflow: hidden;
+    margin-top: .25rem;
+  }
+  
+  .progress-inner {
+    height: 100%;
+    background: linear-gradient(90deg,#8b6b5c,#6d534a);
+    width: 0%;
+    transition: width .4s ease;
+  }
+  
+  .progress-text {
+    margin-top: .3rem;
+    font-size: .7rem;
+    color: #555;
+    letter-spacing: .5px;
+  }
+  
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-top: .5rem;
+  }
+  
+  .primary-btn, .secondary-btn {
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    padding: .75rem 1.2rem;
+    border-radius: 10px;
+    letter-spacing: .5px;
+    font-size: .8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    transition: background .25s, transform .15s;
+  }
+  
+  .primary-btn {
+    background: #8b6b5c;
+    color: #fff;
+  }
+  .primary-btn:hover { background: #6d534a; }
+  .primary-btn:active { transform: translateY(1px); }
+  
+  .secondary-btn {
+    background: #f0f0f0;
+    color: #555;
+  }
+  .secondary-btn:hover { background: #e2e2e2; }
+  
+  .close-btn {
+    position: absolute;
+    top: .6rem;
+    right: .7rem;
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #888;
+    transition: color .2s;
+  }
+  .close-btn:hover { color: #444; }
+  
+  .status-area {
+    margin-top: .85rem;
+    min-height: 18px;
+    font-size: .72rem;
+    letter-spacing: .5px;
+  }
+  
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #fff;
+    border-bottom-color: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  /* Toast */
+  .toast-container {
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    z-index: 960;
+  }
+  
+  .toast {
+    background: #2d2f33;
+    color: #fff;
+    padding: .75rem 1rem;
+    border-radius: 10px;
+    font-size: .75rem;
+    box-shadow: 0 4px 14px -3px rgba(0,0,0,0.4);
+    display: flex;
+    gap: .65rem;
+    align-items: flex-start;
+    line-height: 1.3;
+    animation: toastIn .35s ease;
+  }
+  .toast.success { background: #2f6e41; }
+  .toast.error { background: #823232; }
+  @keyframes toastIn {
+    from { opacity:0; transform: translateY(6px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  
+  @media (max-width: 560px) {
+    .donation-modal {
+      padding: 1.25rem 1.25rem 1.5rem;
+    }
+    .amount-quick input {
+      flex: 1 1 100%;
+    }
+    .quick-buttons { width:100%; }
+  }
+  

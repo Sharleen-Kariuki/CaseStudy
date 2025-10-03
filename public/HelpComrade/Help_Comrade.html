@@ -1,53 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Help_Comrade.css">
-    <title>Help a Comrade</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help a Comrade</title>
+  <link rel="stylesheet" href="Help_Comrade.css">
 </head>
 <body>
-    <div class="nav-container">
-        <img src="../images/SOMESHA.png" alt="">
-        <nav class="dashboard-nav">
-            <a href="../HelpComrade/Help_Comrade.html">Find a Comrade to Help</a>
-            <a href="../SignUp/SignUp.html">Student: Get Help</a>
-            <a href="#">About Us</a>
-        </nav>
+  <div class="nav-container">
+    <img src="../images/SOMESHA.png" alt="">
+    <nav class="dashboard-nav">
+      <a href="../HelpComrade/Help_Comrade.html">Find a Comrade to Help</a>
+      <a href="../SignUp/SignUp.html">Student: Get Help</a>
+      <a href="../Dashboard/Dashboard.html">About Us</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <div class="left">
+      <h1>Filter By</h1>
+      <div class="filter">
+        <h3>Amount needed</h3>
+        <div><input type="radio" name="amount" value="lt30k" id="less30k"><label for="less30k">Less than 30k</label></div>
+        <div><input type="radio" name="amount" value="20to50" id="between20k50k"><label for="between20k50k">Between 20k and 50k</label></div>
+        <div><input type="radio" name="amount" value="50to99" id="between50k99k"><label for="between50k99k">Between 50k and 99k</label></div>
+        <div><input type="radio" name="amount" value="gt100" id="more100k"><label for="more100k">More than 100k</label></div>
+      </div>
+      <div class="filter">
+        <h3>Year of Study</h3>
+        <div><input type="radio" name="year" value="1" id="first"><label for="first">First Year</label></div>
+        <div><input type="radio" name="year" value="2" id="second"><label for="second">Second Year</label></div>
+        <div><input type="radio" name="year" value="3" id="third"><label for="third">Third Year</label></div>
+        <div><input type="radio" name="year" value="4" id="fourth"><label for="fourth">Fourth Year</label></div>
+        <div><input type="radio" name="year" value="5" id="fifth"><label for="fifth">Fifth Year</label></div>
+        <div><input type="radio" name="year" value="6" id="sixth"><label for="sixth">Sixth Year</label></div>
+      </div>
     </div>
 
-    <div class="main">
-        <div class="left">
-            <h1>Filter By</h1>
-            <div class="filter">
-                <h3>Amount needed</h3>
-                <div><input type="radio" name="amount" value="lt30k" id="less30k"><label for="less30k">Less than 30k</label></div>
-                <div><input type="radio" name="amount" value="20to50" id="between20k50k"><label for="between20k50k">Between 20k and 50k</label></div>
-                <div><input type="radio" name="amount" value="50to99" id="between50k99k"><label for="between50k99k">Between 50k and 99k</label></div>
-                <div><input type="radio" name="amount" value="gt100" id="more100k"><label for="more100k">More than 100k</label></div>
-            </div>
-            <div class="filter">
-                <h3>Year of Study</h3>
-                <div><input type="radio" name="year" value="1" id="first"><label for="first">First Year</label></div>
-                <div><input type="radio" name="year" value="2" id="second"><label for="second">Second Year</label></div>
-                <div><input type="radio" name="year" value="3" id="third"><label for="third">Third Year</label></div>
-                <div><input type="radio" name="year" value="4" id="fourth"><label for="fourth">Fourth Year</label></div>
-                <div><input type="radio" name="year" value="5" id="fifth"><label for="fifth">Fifth Year</label></div>
-                <div><input type="radio" name="year" value="6" id="sixth"><label for="sixth">Sixth Year</label></div>
-            </div>
-        </div>
-
-        <!-- Dynamic Requests Container -->
-        <div class="right">
-            <h1>Find a Comrade to Help</h1>
-            <div id="requestsList">
-                <!-- Cards will be injected by list.js -->
-                <p style="opacity:0.6;">Loading requests...</p>
-            </div>
-        </div>
+    <div class="right">
+      <h1>Find a Comrade to Help</h1>
+      <div id="requestsList">
+        <p style="opacity:0.6;">Loading requests...</p>
+      </div>
     </div>
+  </div>
 
-    <!-- Added dynamic script -->
-    <script src="list.js"></script>
+  <!-- Donation Modal -->
+  <div id="donation-backdrop" class="donation-backdrop hidden"></div>
+  <div id="donation-modal" class="donation-modal hidden" role="dialog" aria-modal="true" aria-labelledby="donationTitle">
+    <button class="close-btn" id="donationClose" aria-label="Close">&times;</button>
+    <h2 id="donationTitle">Support This Student</h2>
+    <p id="donationSummary" class="donation-summary"></p>
+
+    <form id="donationForm" novalidate>
+      <div class="form-row">
+        <label for="donationAmount">Amount (KES)</label>
+        <div class="amount-quick">
+          <input type="number" id="donationAmount" min="1" placeholder="e.g. 500" required />
+          <div class="quick-buttons">
+            <button type="button" data-amt="250">250</button>
+            <button type="button" data-amt="500">500</button>
+            <button type="button" data-amt="1000">1k</button>
+            <button type="button" data-amt="2500">2.5k</button>
+          </div>
+        </div>
+        <small class="hint">Choose a quick amount or enter a custom value.</small>
+      </div>
+
+      <div class="form-row">
+        <label for="donationPhone">M-Pesa Phone (2547XXXXXXXX)</label>
+        <input type="tel" id="donationPhone" pattern="^2547\\d{8}$" placeholder="2547XXXXXXXX" required />
+        <small class="hint">Must start with 2547 and have 12 digits total.</small>
+      </div>
+
+      <div class="form-row">
+        <label for="donationReference">Reference</label>
+        <input type="text" id="donationReference" readonly />
+        <small class="hint">Auto-generated reference. You can copy this.</small>
+      </div>
+
+      <div class="form-row progress-preview">
+        <label>Progress</label>
+        <div class="progress-outer">
+          <div id="donationProgressFill" class="progress-inner" style="width:0%;"></div>
+        </div>
+        <div id="donationProgressText" class="progress-text"></div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" id="donationSubmit" class="primary-btn">
+          <span class="btn-label">Send STK Push</span>
+          <span class="spinner hidden" id="donationSpinner"></span>
+        </button>
+        <button type="button" class="secondary-btn" id="donationCancel">Cancel</button>
+      </div>
+
+      <div id="donationStatus" class="status-area" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="list.js"></script>
 </body>
 </html>
